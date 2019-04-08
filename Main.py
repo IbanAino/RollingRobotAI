@@ -3,6 +3,7 @@ from Modules.OccupancyGrid import OccupancyGrid
 from Modules.RpLidar import RpLidar
 from Modules.Robot import Robot
 import matplotlib.pyplot as plt
+import time
 
 
 show_animation = True
@@ -19,7 +20,11 @@ Robot.y = 5000
 lidar = RpLidar()
 lidar.runLidar()
 
+newTime = 0
+
 while True:
+    newTime = time.time()
+    
     obstaclesFromRobot = lidar.GetObstacles()
     #print(obstaclesFromRobot)
     
@@ -65,3 +70,7 @@ while True:
         plt.draw()
         plt.pause(0.001)
     
+    # Time for the loop to execute in seconds
+    print(time.time() - newTime)
+    
+    #time.sleep(1)
