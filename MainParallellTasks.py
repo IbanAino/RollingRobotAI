@@ -8,6 +8,10 @@ from Modules.Robot import Robot
 import matplotlib.pyplot as plt
 
 
+#--------------------- VARIABLES ---------------
+
+    
+    
 #--------------------- FUNCTIONS ---------------
 
 def f(name):
@@ -16,7 +20,7 @@ def f(name):
 
 #------------------------ PROCESS ----------------
   
-def ProcessRobotManagement():
+def ProcessRobotManagement(sharedMap):
     #------ Objects declarations -------
     global OccupancyGrid
     global Robot
@@ -95,17 +99,42 @@ def ProcessRobotManagement():
         plt.draw()
         plt.pause(0.1)
         
+        sharedMap[0] = 42
         
-        #print(grid)
+
         
-        
+def GraphicVisualisation(sharedMap):
+    
+    #sharedMap [0] = 1
+    sharedMap [1] = 2
+    sharedMap [2] = 3
+    
+    while True:
+        print(sharedMap[0])
+        time.sleep(2)       
+
 
 #--------------------- SETUP ---------------
 
 if __name__ == '__main__':
+    # Queue to share data wetween process
+    q1 = multiprocessing.Queue()
+
+    
+    # Shared memory variable
+    sharedMap = multiprocessing.Array('i', 3)
+
+    
     p = multiprocessing.Process(target=f, args=('bob',))
-    p2 = multiprocessing.Process(target=ProcessRobotManagement, )
+    p2 = multiprocessing.Process(target=ProcessRobotManagement, args=(sharedMap, ))
+    p3 = multiprocessing.Process(target=GraphicVisualisation, args=(sharedMap, ))
+    
     p.start()
     p2.start()
+    p3.start()
+    
+
+    
     p2.join()
     p.join()
+    p3.join()
