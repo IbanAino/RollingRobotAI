@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import time
 import threading
 import multiprocessing
+import os
 
 
 show_animation = True
@@ -72,6 +73,19 @@ def PlotFigure(name):
     print(name)
     print("------------------------------------")
 
+
+def printMapInsideShell():
+    os.system("cls")
+    
+    for i in range(1, 200, 10):
+        for j in range(1, 200, 5):
+            if grid[i, j] == 0:
+                print("*", end=" ")
+            elif grid[i, j] == 255:
+                print("#", end=" ")
+            else:
+                print(" ", end=" ")
+        print("\n")
     
            
 # SETUP
@@ -92,7 +106,7 @@ if __name__ == '__main__':
     # Threads declataitons
     t1 = threading.Thread(name='daemon', target = GetLidarData)
     t2 = threading.Thread(name='daemon', target = UpdateOccupancyGrid)
-    # t3 = threading.Thread(name='daemon', target = PlotFigure)
+    t3 = threading.Thread(name='daemon', target = PlotFigure)
 
     while True:
         newTime = time.time()
@@ -105,17 +119,17 @@ if __name__ == '__main__':
             t2 = threading.Thread(name='daemon', target = UpdateOccupancyGrid)
             t2.start()
             #t2.join(5)
-        '''
+        
         if t3.isAlive() is False:
-            t3 = threading.Thread(name='daemon', target = PlotFigure)
+            t3 = threading.Thread(name='daemon', target = printMapInsideShell)
             t3.start()
             #t2.join(5)
-        '''    
+         
          
         # Waiting for Threads to be completed
         t1.join()
         t2.join() # Wait 5 seconds until the thread exit
-        # t3.join()
+        t3.join()
         
         #p1.join()
 

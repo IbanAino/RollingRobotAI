@@ -70,6 +70,7 @@ while True:
         plt.draw()
         plt.pause(0.001)
     
+        
     # Time for the loop to execute in seconds
     print(time.time() - newTime)
     

@@ -13,7 +13,8 @@ class OccupancyGrid:
         self.gridHigh = gridHigh
         
         self.grid = np.array([[0.0 for i in range(gridWidth)] for i in range(gridHigh)])
-        
+        #self.grid = np.empty([gridHigh, gridHigh])
+        #self.grid = [[0]*gridWidth]*gridHigh
     
     # Fill the cell where a point P(x,y) is situated
     def FillCell(self, x, y, value):
@@ -22,6 +23,8 @@ class OccupancyGrid:
         
         if((self.gridHigh > _cellX) & (self.gridWidth > _cellY)):
             self.grid[int(_cellX), int(_cellY)] = 255
+            
+            #self.grid[_cellY][_cellX] = 255
             '''
             print(x)
             print(_cellX)
